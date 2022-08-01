@@ -26,20 +26,21 @@ class Utils:
 class Category:
     __categories = {}
     def __init__(self, name, capacity) -> None:
-        self.__cap = capacity
-        self.__name = name
+        self.capacity = capacity
+        self.name = name
+        self.current = 0
     
     @staticmethod
     def init_cat(cats, cap):
         for cat in cats:
-            Category.__categories[cat.lower()] = {'name': cat, 'capacity': cap, 'current': 0}
+            Category.__categories[cat.lower()] = Category(cat, cap)
     
     @staticmethod
     def getCat(cat):
         if cat.lower() in Category.__categories.keys():
-            if Category.__categories[cat.lower()]['current'] <= Category.__categories[cat.lower()]['capacity']:
-                Category.__categories[cat.lower()]['current'] += 1
-                return Category.__categories[cat.lower()]['name']
+            if Category.__categories[cat.lower()].current < Category.__categories[cat.lower()].capacity:
+                Category.__categories[cat.lower()].current += 1
+                return Category.__categories[cat.lower()].name
             else:
                 raise Exception('Category limit exceeded')
         else:
