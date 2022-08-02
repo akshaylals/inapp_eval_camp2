@@ -176,16 +176,31 @@ class Product:
     def listProducts():
         for _, product in Product.products.items():
             product.display()
-
+    
+    @staticmethod
+    def updateMrpByRate():
+        name = input('Enter Product name: ')
+        product = None
+        for key, val in Product.products.items():
+            if val.name == name:
+                product = val
+        if product:
+            rate = Utils.getFloat('Enter MRP increase Rate: ')
+            product.mrp = round(product.mrp + product.mrp * rate / 100)
+            product.display()
+        else:
+            print('Not found')
 
 while True:
     opt = Utils.getInt('''
     1. Add
     2. List
+    3. Increase Product MRP by %
     0. Exit
     > ''')
     match opt:
         case 1: Product.addProduct()
         case 2: Product.listProducts()
+        case 3: Product.updateMrpByRate()
         case 0: break
         case _: print('Invalid input')
